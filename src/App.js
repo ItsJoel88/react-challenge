@@ -9,7 +9,7 @@ import './App.css'
 
 class App extends Component {
   state = {
-    title: "React Challenge",
+    title: "All Characters",
     peopleList: [],
     tempList: [],
     searchVal: '',
