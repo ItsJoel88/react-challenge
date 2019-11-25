@@ -1,0 +1,13 @@
+.btnSort {
+    margin-bottom: 1%;
+}
+
+.btnSort button{
+    border-radius: 12px;
+    border:none;
+    margin-right: 1%;
+}
+
+.btnSort button:hover{
+    background-color: grey;
+}

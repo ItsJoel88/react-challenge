@@ -1,0 +1,11 @@
+.people div{
+    display: none;
+}
+
+.show div{
+    display: block;
+}
+
+.people:hover{
+    color:red;
+}
