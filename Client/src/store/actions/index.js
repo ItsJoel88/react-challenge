@@ -1,0 +1,108 @@
+export const search = () => {
+    return {
+        type: 'SEARCH'
+    }
+}
+
+export const logout = (input) => {
+    return {
+        type: 'LOGIN_SUCCESS',
+        success: input
+    }
+}
+
+export const setLogin = (input) => {
+    return {
+        type: 'LOGIN_SUCCESS',
+        success: input
+    }
+}
+
+export const login = (input) => async dispatch => {
+    dispatch({ type: 'LOGIN_PENDING', pending: true })
+    dispatch({ type: 'LOGIN_SUCCESS', success: false })
+    dispatch({ type: 'LOGIN_ERROR', error: null })
+    let data = {
+        email: input.email,
+        password: input.password
+    }
+    try {
+        const response = await fetch('http://localhost:3001/users/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        const content = await response.json()
+        if (!content.token) {
+            throw content.message
+        } else {
+            localStorage.setItem('token', content.token)
+            dispatch({ type: 'LOGIN_PENDING', pending: false })
+            dispatch({
+                type: 'LOGIN_SUCCESS',
+                success: true
+            })
+            input.history.push('/')
+        }
+    } catch (err) {
+        dispatch({ type: 'LOGIN_ERROR', error: err })
+    }
+}
+
+export const register = (input) => async dispatch => {
+    dispatch({ type: 'REGISTER_PENDING', pending: true })
+    dispatch({ type: 'REGISTER_SUCCESS', success: false })
+    dispatch({ type: 'REGISTER_ERROR', error: null })
+    let data = {
+        name: input.name,
+        email: input.email,
+        password: input.password
+    }
+    try {
+        const response = await fetch('http://localhost:3001/users/register', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        const content = await response.json()
+        // console.log(content)
+        if (!content._id) {
+            throw content
+        } else {
+            dispatch({ type: 'REGISTER_PENDING', pending: false })
+            dispatch({ type: 'REGISTER_SUCCESS', success: true })
+            input.history.push('/login')
+        }
+    } catch (err) {
+        dispatch({ type: 'REGISTER_ERROR', error: err })
+    }
+}
+
+export const fetchFavorites = () => async dispatch => {
+    dispatch({ type: 'FAVORITE_FETCH_PENDING', pending: true })
+    dispatch({ type: 'FAVORITE_FETCH_SUCCESS', success: [] })
+    dispatch({ type: 'FAVORITE_FETCH_ERROR', error: null })
+
+    try {
+        const token = localStorage.getItem('token')
+        const response = await fetch('http://localhost:3001/favorites', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'token': token
+            }
+        })
+        const content = await response.json()
+        dispatch({ type: 'FAVORITE_FETCH_PENDING', pending: false })
+        dispatch({ type: 'FAVORITE_FETCH_SUCCESS', success: content })
+    } catch (err) {
+        dispatch({ type: 'FAVORITE_FETCH_ERROR', error: err })
+    }
+}

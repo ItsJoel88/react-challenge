@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import List from '../components/List'
 import Search from '../components/Search'
 
-import '../../Client/node_modules/bootstrap/dist/css/bootstrap.min.css';
+import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'
 
 const Home = (props) => {

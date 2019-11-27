@@ -1,17 +1,16 @@
-import React, { Component } from 'react'
+import React from 'react'
 
-class Search extends Component {
+// import { useDispatch } from 'react-redux'
 
-    render() {
-        return (
-            <div style={{ marginBottom: '1%' }}>
-                <form onSubmit={this.props.submit}>
-                    <input style={{ borderRadius: '12px' }} onChange={this.props.searching} type="text" placeholder="Search by Country Name" />
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-        )
-    }
+const Search = (props) => {
+    return (
+        <div style={{ marginBottom: '1%' }}>
+            <form onSubmit={props.submit}>
+                <input style={{ borderRadius: '12px' }} onChange={props.searching} type="text" placeholder="Search by Country Name" />
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    )
 }
 
 

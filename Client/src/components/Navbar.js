@@ -1,25 +1,17 @@
 import React from 'react'
-import { Switch, Route, Link, useHistory, withRouter } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link, withRouter } from 'react-router-dom'
 
-import Home from '../containers/Home'
-import Continent from '../containers/Continent'
-import Login from '../containers/Login'
+import { logout } from '../store/actions'
 
 import './Navbar.css'
 
-function PrivateRoute() {
-    let history = useHistory()
-    return (
-        <Route>
-            {
-                localStorage.getItem('token') ? <h1>Hello favorite</h1> : history.push('/login')
-            }
-        </Route>
-    )
-}
 
 const Navigation = (props) => {
+    const isLogin = useSelector((state) => state.login.success)
+    const dispatch = useDispatch()
     const logoutHandler = () => {
+        dispatch(logout(false))
         localStorage.clear()
         props.history.replace('/login')
     }
@@ -43,32 +35,13 @@ const Navigation = (props) => {
                     <Link to="/favorite">Favorites</Link>
                 </li>
                 {
-                    localStorage.getItem('token') ?
+                    isLogin ?
                         <li onClick={logoutHandler}>Logout</li> :
                         <li>
                             <Link to="/login">Login</Link>
                         </li>
                 }
             </ul>
-            <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/asia">
-                    <Continent name="asia" />
-                </Route>
-                <Route path="/europe">
-                    <Continent name="europe" />
-                </Route>
-                <Route path="/africa">
-                    <Continent name="africa" />
-                </Route>
-                <PrivateRoute path="/favorite">
-                </PrivateRoute>
-                <Route path="/login">
-                    <Login />
-                </Route>
-            </Switch>
         </div>
     )
 }
