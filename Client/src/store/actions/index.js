@@ -27,7 +27,7 @@ export const login = (input) => async dispatch => {
         password: input.password
     }
     try {
-        const response = await fetch('http://localhost:3001/users/login', {
+        const response = await fetch('http://react-countries.itsjoel.site/users/login', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -51,6 +51,7 @@ export const login = (input) => async dispatch => {
             })
         }
     } catch (err) {
+        console.log(err)
         dispatch({ type: 'LOGIN_ERROR', error: err })
     }
 }
@@ -65,7 +66,7 @@ export const register = (input) => async dispatch => {
         password: input.password
     }
     try {
-        const response = await fetch('http://localhost:3001/users/register', {
+        const response = await fetch('http://react-countries.itsjoel.site/users/register', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -97,7 +98,7 @@ export const fetchFavorites = () => async dispatch => {
 
     try {
         const token = localStorage.getItem('token')
-        const response = await fetch('http://localhost:3001/favorites', {
+        const response = await fetch('http://react-countries.itsjoel.site/favorites', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -125,7 +126,7 @@ export const addFavorite = (input) => async dispatch => {
 
     try {
         const token = localStorage.getItem('token')
-        const response = await fetch('http://localhost:3001/favorites', {
+        const response = await fetch('http://react-countries.itsjoel.site/favorites', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -156,7 +157,7 @@ export const deleteFavorite = (input) => async dispatch => {
 
     try {
         const token = localStorage.getItem('token')
-        const response = await fetch(`http://localhost:3001/favorites/${id}`, {
+        const response = await fetch(`http://react-countries.itsjoel.site/favorites/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',

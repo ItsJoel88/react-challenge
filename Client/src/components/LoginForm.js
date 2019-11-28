@@ -33,7 +33,10 @@ const LoginForm = (props) => {
 
     return (
         <div className="container">
-            <p style={{ color: 'red' }}>{errorLogin}</p>
+            {
+                errorLogin ?
+                    <p style={{ color: 'red' }}>{JSON.stringify(errorLogin)}</p> : ''
+            }
             <Form onSubmit={loginHandler}>
                 <Form.Group controlId="formBasicEmail">
                     <Form.Label>Email address</Form.Label>
