@@ -1,0 +1,11 @@
+.countryCard:hover{
+    transform: scale(1.1);
+    transition: 0.5s;
+}
+
+.countryCard{
+    transition: 0.5s;
+    height: 300px;
+    width: 300px;
+    object-fit: contain;
+}

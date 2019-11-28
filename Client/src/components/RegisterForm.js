@@ -4,11 +4,13 @@ import { useHistory } from 'react-router-dom'
 import { register } from '../store/actions'
 
 import { Form, Button } from 'react-bootstrap'
+import { useAlert } from 'react-alert'
 
 const RegisterForm = (props) => {
     const errorRegister = useSelector((state) => state.register.error)
     const dispatch = useDispatch()
     const history = useHistory()
+    const alert = useAlert()
 
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
@@ -28,7 +30,7 @@ const RegisterForm = (props) => {
 
     const registerHandler = (e) => {
         e.preventDefault()
-        dispatch(register({ name, email, password, history }))
+        dispatch(register({ name, email, password, history, alert }))
         setName('')
         setPassword('')
         setEmail('')

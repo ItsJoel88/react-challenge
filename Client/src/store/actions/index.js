@@ -46,6 +46,9 @@ export const login = (input) => async dispatch => {
                 success: true
             })
             input.history.push('/')
+            input.alert.show('Login success', {
+                type: 'success'
+            })
         }
     } catch (err) {
         dispatch({ type: 'LOGIN_ERROR', error: err })
@@ -78,6 +81,9 @@ export const register = (input) => async dispatch => {
             dispatch({ type: 'REGISTER_PENDING', pending: false })
             dispatch({ type: 'REGISTER_SUCCESS', success: true })
             input.history.push('/login')
+            input.alert.show('Register success', {
+                type: 'success'
+            })
         }
     } catch (err) {
         dispatch({ type: 'REGISTER_ERROR', error: err })
@@ -104,5 +110,70 @@ export const fetchFavorites = () => async dispatch => {
         dispatch({ type: 'FAVORITE_FETCH_SUCCESS', success: content })
     } catch (err) {
         dispatch({ type: 'FAVORITE_FETCH_ERROR', error: err })
+    }
+}
+
+export const addFavorite = (input) => async dispatch => {
+    dispatch({ type: 'ADD_FAVORITE_PENDING', pending: true })
+    dispatch({ type: 'ADD_FAVORITE_SUCCESS', success: false })
+    dispatch({ type: 'ADD_FAVORITE_ERROR', error: null })
+    const data = {
+        name: input.name,
+        capital: input.capital,
+        image: input.flag
+    }
+
+    try {
+        const token = localStorage.getItem('token')
+        const response = await fetch('http://localhost:3001/favorites', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'token': token
+            },
+            body: JSON.stringify(data)
+        })
+        const content = await response.json()
+        dispatch({ type: 'ADD_FAVORITE_PENDING', pending: false })
+        dispatch({ type: 'ADD_FAVORITE_SUCCESS', success: content })
+        input.alert.show('Country added to favorite', {
+            type: 'success'
+        })
+    } catch (err) {
+        input.alert.show('Oh look an error occurred' + err, {
+            type: 'error'
+        })
+        dispatch({ type: 'ADD_FAVORITE_ERROR', error: err })
+    }
+}
+
+export const deleteFavorite = (input) => async dispatch => {
+    dispatch({ type: 'DELETE_FAVORITE_PENDING', pending: true })
+    dispatch({ type: 'DELETE_FAVORITE_SUCCESS', success: false })
+    dispatch({ type: 'DELETE_FAVORITE_ERROR', error: null })
+    const id = input.id
+
+    try {
+        const token = localStorage.getItem('token')
+        const response = await fetch(`http://localhost:3001/favorites/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'token': token
+            }
+        })
+        const content = await response.json()
+        dispatch({ type: 'DELETE_FAVORITE_PENDING', pending: false })
+        dispatch({ type: 'FAVORITE_FETCH_SUCCESS', success: id })
+        input.alert.show('Delete success', {
+            type: 'success'
+        })
+    } catch (err) {
+        input.alert.show('Oh look an error occurred' + err, {
+            type: 'error'
+        })
+        dispatch({ type: 'DELETE_FAVORITE_ERROR', error: err })
     }
 }

@@ -10,12 +10,13 @@ class FavoriteController {
     }
 
     static create(req, res, next) {
-        Favorite.create({
-            user: req.decode.id,
-            image: req.body.image,
+        let createObj = {
             name: req.body.name,
+            image: req.body.image,
+            user: req.decode.id,
             capital: req.body.capital
-        })
+        }
+        Favorite.findOneAndUpdate({ name: req.body.name }, createObj, { upsert: true })
             .then(favorite => {
                 res.status(201).json(favorite)
             })

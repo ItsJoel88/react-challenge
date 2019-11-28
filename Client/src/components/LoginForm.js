@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { login } from '../store/actions'
 
 import { Form, Button } from 'react-bootstrap'
+import { useAlert } from 'react-alert'
 
 
 const LoginForm = (props) => {
@@ -13,6 +14,7 @@ const LoginForm = (props) => {
     const history = useHistory()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const alert = useAlert()
 
     const emailValue = (e) => {
         setEmail(e.target.value)
@@ -23,7 +25,7 @@ const LoginForm = (props) => {
     }
 
     const loginHandler = (e) => {
-        dispatch(login({ email, password, history }))
+        dispatch(login({ email, password, history, alert }))
         e.preventDefault()
         setEmail('')
         setPassword('')
@@ -47,7 +49,7 @@ const LoginForm = (props) => {
             </Button>
             </Form>
             <br />
-            <Link to="/register">Register</Link>
+            <Link to="/register">Don't Have an account ?</Link>
         </div>
     )
 }
